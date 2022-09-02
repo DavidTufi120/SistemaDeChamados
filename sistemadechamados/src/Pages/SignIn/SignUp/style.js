@@ -35,11 +35,15 @@ export const Container = styled.div`
     & a {
       justify-content: center;
       display: flex;
-      margin: 20px 0 30px 0;
-      background-color: #024059;
+      margin: 5px 0 20px 0;
+      background-color: #181c2e;
       padding: 10px 0;
       border-radius: 4px;
       color: white;
+    }
+
+    & a + a {
+      background-color: #024059;
     }
   }
 `;
@@ -77,16 +81,4 @@ export const TypographyLogin = styled(Typography)`
   color: #fff;
   text-align: center;
   margin: 0.5em 0;
-`;
-
-export const LoginButton = styled(Button)`
-  display: flex;
-  color: white;
-  justify-content: center;
-  background-color: #181c2e;
-  width: 100%;
-
-  &:hover {
-    background-color: #181c2e;
-  }
 `;
