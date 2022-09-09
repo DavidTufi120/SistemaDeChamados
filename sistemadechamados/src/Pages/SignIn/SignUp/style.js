@@ -29,23 +29,34 @@ export const Container = styled.div`
   background-color: #121212;
 
   & form {
-    width: 40%;
+    width: 50%;
     justify-content: center;
 
     & a {
-      justify-content: center;
-      display: flex;
-      margin: 5px 0 20px 0;
-      background-color: #181c2e;
-      padding: 10px 0;
-      border-radius: 4px;
+      background-color: #024059;
       color: white;
+      padding: 13px 41px;
+      display: flex;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      justify-content: center;
     }
 
-    & a + a {
-      background-color: #024059;
+    @media (max-width: 505px) {
+      width: 65%;
+      justify-content: center;
     }
   }
+`;
+
+export const CadastrarButton = styled(Button)`
+  justify-content: center;
+  display: flex;
+  margin: 5px 0 20px 0;
+  background-color: #181c2e;
+  padding: 10px 0;
+  border-radius: 4px;
+  color: white;
 `;
 
 export const LoginBox = styled(Box)`

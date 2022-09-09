@@ -1,8 +1,9 @@
-import { ThemeProvider } from "@mui/material";
-import { useState } from "react";
+import { Button, ThemeProvider } from "@mui/material";
+import { useContext, useState } from "react";
 import logo from "./../../../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
+  CadastrarButton,
   CamposLogin,
   Container,
   LoginArea,
@@ -10,14 +11,21 @@ import {
   theme,
   TypographyLogin,
 } from "./style";
+import { AuthContext } from "../../../contexts/auth";
 
 export const SignUp = () => {
   const [nome, setNome] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  const { signUp } = useContext(AuthContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (nome !== "" && (email !== "") & (password !== "")) {
+      signUp(email, password, nome);
+    }
   };
 
   return (
@@ -53,15 +61,9 @@ export const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></CamposLogin>
-            <CamposLogin
-              label="Confirmação de senha"
-              type="password"
-              color="secondary"
-              variant="outlined"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></CamposLogin>
-            <Link to="/register">Cadastrar</Link>
+            <CadastrarButton label="Cadastrar" fullWidth type="submit">
+              Cadastrar
+            </CadastrarButton>
             <Link to="/"> Já tem uma conta? Entre</Link>
           </form>
         </LoginBox>
