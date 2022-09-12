@@ -1,4 +1,4 @@
-import { Button, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import { useContext, useState } from "react";
 import logo from "./../../../assets/logo.png";
 import { Link } from "react-router-dom";
@@ -12,13 +12,14 @@ import {
   TypographyLogin,
 } from "./style";
 import { AuthContext } from "../../../contexts/auth";
+import CircularColorProgress from "../../../components/CircularColorProgress";
 
 export const SignUp = () => {
   const [nome, setNome] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +63,7 @@ export const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             ></CamposLogin>
             <CadastrarButton label="Cadastrar" fullWidth type="submit">
-              Cadastrar
+              {loadingAuth ? <CircularColorProgress /> : "Cadastrar"}
             </CadastrarButton>
             <Link to="/"> Já tem uma conta? Entre</Link>
           </form>

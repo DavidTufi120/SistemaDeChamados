@@ -1,5 +1,5 @@
 import "./style.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import logo from "../../assets/logo.png";
 import { ThemeProvider } from "@mui/material/styles";
 import {
@@ -12,13 +12,20 @@ import {
   TypographyLogin,
 } from "./style.js";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth.js";
+import CircularColorProgress from "../../components/CircularColorProgress.js";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (email !== "" && password !== "") {
+      signIn(email, password);
+    }
   };
   return (
     <Container fixed>
@@ -45,8 +52,13 @@ export default function SignIn() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></CamposLogin>
+            <LoginButton
+              type="submit"
+              disabled={loadingAuth || email === "" || password === ""}
+            >
+              {loadingAuth ? <CircularColorProgress /> : "Acessar"}
+            </LoginButton>
 
-            <LoginButton type="submit">Acessar</LoginButton>
             <Link to="/register">Criar uma conta agora!</Link>
           </form>
         </LoginBox>

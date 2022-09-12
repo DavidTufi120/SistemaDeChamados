@@ -8,12 +8,47 @@ function AuthProvider({ children }) {
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  //desloga o usuário
   async function signOut() {
     await firebase.auth().signOut();
     localStorage.removeItem("SistemaUser");
     setUser(null);
   }
 
+  //fazendo login do usuário
+  async function signIn(email, password) {
+    setLoadingAuth(true);
+
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(async (value) => {
+        let uid = value.user.uid;
+
+        const userProfile = await firebase
+          .firestore()
+          .collection("users")
+          .doc(uid)
+          .get();
+
+        let data = {
+          uid: uid,
+          nome: userProfile.data().nome,
+          avatarUrl: userProfile.data().avatarUrl,
+          email: value.user.email,
+        };
+
+        setUser(data);
+        storageUser(data);
+        setLoadingAuth(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoadingAuth(false);
+      });
+  }
+
+  //cadastrando um novo usuário
   const signUp = async (email, password, nome) => {
     setLoadingAuth(true);
     await firebase
@@ -67,7 +102,15 @@ function AuthProvider({ children }) {
   // !!user converte para boolean
   return (
     <AuthContext.Provider
-      value={{ auth: !!user, user, loading, signUp, signOut }}
+      value={{
+        auth: !!user,
+        user,
+        loading,
+        signUp,
+        signOut,
+        signIn,
+        loadingAuth,
+      }}
     >
       {children}
     </AuthContext.Provider>
